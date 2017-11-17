@@ -60,18 +60,18 @@ void setSegments(int selchar){
       digitalWrite(seg[z], HIGH);
     }
     z++;
-    delay(1);
+    delay(0.5);
   }
 }
 
 /* disply selected gear
  */
 void setGear(int gear){
-  delay(1);
+  delay(10);
   digitalWrite(com[0], LOW);
-  delay(1);
+  delay(10);
   digitalWrite(com[3], HIGH);
-  delay(1);
+  delay(10);
   setSegments(gear);
 //  digitalWrite(com[3], LOW);
 }
@@ -80,11 +80,11 @@ void setGear(int gear){
  */
 void setRevLight(int shift){
   if(shift > 0){
-    delay(1);
+    delay(10);
     digitalWrite(com[3], LOW);
-    delay(1);
+    delay(10);
     digitalWrite(com[0], HIGH);
-    delay(1);
+    delay(10);
     setSegments(9);
 //    digitalWrite(com[0], LOW);
   }
