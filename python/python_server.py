@@ -30,6 +30,7 @@ def main():
         sock.bind(('', ports[game]))
         data = sock.recv(512)
         sock.close()
+        sock.sendto(data, ('172.0.0.1', 20776)) # ShakeIt
         if not data:
             stat = [1] * 256
             #break # Lost connection
