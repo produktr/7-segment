@@ -15,10 +15,11 @@ print("PYTHON VERSION: ",sys.version)
 def menu():
     print 30 * "-" , "SELECT GAME" , 30 * "-"
     print "0. Codemasters"
-    print "1. Project Cars"
-    print "2. Assetto Corsa"
+    #print "1. Project Cars"
+    #print "2. Assetto Corsa"
     print 67 * "-"
-    choice = input("Enter your choice [0-1]: ")
+    #choice = input("Enter your choice [0-2]: ")
+    choice = 0
     return choice
 
 def main():
@@ -41,6 +42,9 @@ def main():
         # set gear
         gear = stat[33]
         gear = int(gear)
+        
+        speed = stat[7] #m/s
+        speed = int(speed * 3.6); #km/h !COULD FIT SHORT (h) if speed > 255 km/h!
         
         # set shift
         rpm = stat[37] * 10
