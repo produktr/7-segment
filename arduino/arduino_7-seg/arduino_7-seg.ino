@@ -5,7 +5,7 @@ int velocity;
 int z;
 int selchar;
 int segment_pins[8] = {2,3,4,5,6,7,8,9};
-int analog_pins[5] = {A1, A2, A3, A4, A5};
+int analog_pins[6] = {A0, A1, A2, A3, A4, A5};
 int com_pins[4] = {10,11,12,13};
 int cha[11][8] = {
   {1,1,1,1,1,1,0,0}, // 0
@@ -115,8 +115,8 @@ void setGear(int gear){
  */
 void setRevLight(int shift){
   if(shift > 0){
-    digitalWrite(analog_pins[0], LOW);
+    digitalWrite(analog_pins[1], LOW);
   }else{
-    digitalWrite(analog_pins[0], HIGH);
+    digitalWrite(analog_pins[1], HIGH);
   }
 }
