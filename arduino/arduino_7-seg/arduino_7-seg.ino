@@ -4,22 +4,24 @@ int shift;
 int velocity;
 int z;
 int selchar;
-int segment_pins[8] = {2,3,4,5,6,7,8,9};
+volatile int buttonState = 0;
+int interrupt_pins[1] = {2};
+int segment_pins[7] = {3,4,5,6,7,8,9};
 int analog_pins[6] = {A0, A1, A2, A3, A4, A5};
 int com_pins[4] = {10,11,12,13};
 int cha[11][8] = {
-  {1,1,1,1,1,1,0,0}, // 0
-  {0,1,1,0,0,0,0,0}, // 1
-  {1,1,0,1,1,0,1,0}, // 2
-  {1,1,1,1,0,0,1,0}, // 3
-  {0,1,1,0,0,1,1,0}, // 4
-  {1,0,1,1,0,1,1,0}, // 5
-  {1,0,1,1,1,1,1,0}, // 6
-  {1,1,1,0,0,0,0,0}, // 7
-  {1,1,1,1,1,1,1,0}, // 8
-  {1,1,1,1,0,1,1,0}, // 9
-  {0,0,1,0,1,0,1,0}, // n
-  {1,0,0,0,1,1,0,0}  // r
+  {1,1,1,1,1,0,1}, // 0
+  {1,1,0,0,0,0,0}, // 1
+  {1,0,1,1,0,1,1}, // 2
+  {1,1,1,0,0,1,1}, // 3
+  {1,1,0,0,1,1,0}, // 4
+  {0,1,1,0,1,1,1}, // 5
+  {0,1,1,1,1,1,1}, // 6
+  {1,1,0,0,0,0,1}, // 7
+  {1,1,1,1,1,1,1}, // 8
+  {1,1,1,0,1,1,1}, // 9
+  {0,1,0,1,0,1,0}, // n
+  {0,0,0,1,1,0,1}  // r
 };
 
 void setup() {
@@ -27,6 +29,9 @@ void setup() {
    while(!Serial){
     ; // wait for serial port to connect
   }
+  // set interruptpin
+  pinMode(interrupt_pins[0], INPUT_PULLDOWN);
+  attachInterrupt(digitalPinToInterrupt(interrupt_pins[0]), switchChange, CHANGE);
 
   // segment pins to OUTPUT
   for(int x = 0; x < sizeof(segment_pins) - 1; x++){
@@ -48,6 +53,15 @@ void setup() {
   }
   // com pins to LOW
   writePins(com_pins, false);
+  
+  // first time read button state
+  buttonState = digitalRead(interrupt_pins[0]);
+}
+
+/* interrupt call
+ */
+void switchChange(){
+  buttonState = digitalRead(interrupt_pins[0]);
 }
 
 /* set pins in array pins high or not
@@ -63,15 +77,17 @@ void writePins(int pins, bool high){
 }
 
 void loop(){
-  if(Serial.available() > 0){
+  //if(Serial.available() > 0){
     Serial.readBytes(bufferArray, 4);
-    //if(digitalRead(analog_in[0]) === HIGH){
-      setSpeed(bufferArray[4]);
-    //}else{
+    if(buttonState === HIGH){
+      setRevLight(1);
+      //setSpeed(bufferArray[4]);
+    }else{
+      setRevLight(0);
       //setGear(bufferArray[0]);
-    //}
-    setRevLight(bufferArray[2]);
-  }
+    }
+    //setRevLight(bufferArray[2]);
+  //}
 }
 
 /* set which segments should light up
