@@ -27,33 +27,27 @@ void setup() {
    while(!Serial){
     ; // wait for serial port to connect
   }
+
   // segment pins to OUTPUT
   for(int x = 0; x < sizeof(segment_pins) - 1; x++){
     pinMode(segment_pins[x], OUTPUT);
   }
   // segment pins to HIGH
   writePins(segment_pins, true);
-  //for(int x = 0; x < sizeof(segment_pins) - 1; x++){
-    //digitalWrite(segment_pins[x], HIGH);
-  //}
+
   // analog pins to OUTPUT
   for(int x = 0; x < sizeof(analog_pins) - 1; x++){
     pinMode(analog_pins[x], OUTPUT);
   }
   // analog pins to HIGH
   writePins(analog_pins, true);
-  //for(int x = 0; x < sizeof(analog_pins) - 1; x++){
-    //digitalWrite(analog_pins[x], HIGH);
-  //}
+
   // com pins to OUTPUT
   for(int x = 0; x < sizeof(com_pins) - 1; x++){
     pinMode(com_pins[x], LOW);
   }
   // com pins to LOW
   writePins(com_pins, false);
-  //for(int x = 0; x < sizeof(com_pins) - 1; x++){
-    //digitalWrite(com_pins[x], LOW);
-  //}
 }
 
 /* set pins in array pins high or not
