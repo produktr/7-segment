@@ -25,10 +25,10 @@ int cha[12][7] = {
 };
 
 void setup() {
-  //Serial.begin(115200);
-   //while(!Serial){
-    //; // wait for serial port to connect
-  //}
+  Serial.begin(115200);
+   while(!Serial){
+    ; // wait for serial port to connect
+  }
 
   // interrupt pins are INPUT
   pinMode(interrupt_pins[0], INPUT);
@@ -60,23 +60,23 @@ void setup() {
 }
 
 void loop(){
-  //if(Serial.available() > 0){
-    //Serial.readBytes(bufferArray, 4);
+  if(Serial.available() > 0){
+    Serial.readBytes(bufferArray, 4);
     if(buttonState == HIGH){
       setRevLight(1);
-      //setSpeed(bufferArray[4]);
+//      setSpeed(bufferArray[4]);
     }else{
       setRevLight(0);
-      //setGear(bufferArray[0]);
+//      setGear(bufferArray[0]);
     }
-    //setRevLight(bufferArray[2]);
-  //}
+    setRevLight(bufferArray[2]);
+  }
 }
 
-/* interrupt call, read current value
+/* interrupt call, set opposite value
  */
 void switchChange(){
-  buttonState = digitalRead(interrupt_pins[0]);
+  buttonState = !buttonState;
 }
 
 /* set pins in array pins high or not
